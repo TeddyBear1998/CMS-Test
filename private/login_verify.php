@@ -15,6 +15,7 @@ if (isset($username) && !empty($username)){
   }
 }
 
+// TODO: Throw error message if login data is incorrect
 function login($username, $password){
   $contents = db_content($username);
   if (!empty($contents)){
@@ -23,10 +24,13 @@ function login($username, $password){
         $_SESSION['logged_in'] = TRUE;
         header("Location: {$baseUrl}/VendonTest/private/cms.php");
         die();
+      }else{
+        header("Location: /VendonTest/login.php");
       }
+    }else{
+      header("Location: /VendonTest/login.php");
     }
   }
-
 }
 
 function db_content($username){

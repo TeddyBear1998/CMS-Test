@@ -4,11 +4,9 @@ require_once("db_connection.php");
 
 class Helper {
 
-  public function getData(){
+  public function getData($query){
       $conn = new DB();
       $connection = $conn->connect();
-
-      $query = "SELECT * FROM questions";
 
       // TODO: make sure 0 records exception gets handled properly.
       if($stmt = $connection->prepare($query)){
@@ -33,14 +31,14 @@ class Helper {
     if($stmt = $connection->prepare($query)){
       $stmt->bind_param("s", $id);
       $stmt->execute();
-      $stmt->bind_result($qid, $qquestion, $qanswers, $qcorrect_answer);
+      $stmt->bind_result($qid, $qquestion, $qanswers, $qcorrect_answer, $quiz_id);
       $stmt->fetch();
       $stmt->close();
     }
-      return ["id" => $qid, "question" => $qquestion, "answers" => $qanswers, "correct_answer" => $qcorrect_answer];
+      return ["id" => $qid, "question" => $qquestion, "answers" => $qanswers, "correct_answer" => $qcorrect_answer, "quiz_id" => $quiz_id];
   }
 
-  // TODO: Make sure this executes without errors with any data provided. 
+  // TODO: Make sure this executes without errors with any data provided.
   public function saveData($data){
     $conn = new DB();
     $connection = $conn->connect();
